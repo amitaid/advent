@@ -184,8 +184,6 @@ def find(text):
     print(count)
 
 
-find(data)
-
 def findmas(text):
     lines = text.split('\n')
     count = 0
@@ -201,8 +199,7 @@ def findmas(text):
                 letters[lines[i][j+2]] += 1
                 letters[lines[i+2][j]] += 1
                 letters[lines[i+2][j+2]] += 1
-                if letters['M'] == 2 and letters['S'] == 2 and \
-                    lines[i][j] != lines[i+2][j+2] and lines[i+2][j] != lines[i][j+2]:
+                if letters['M'] == 2 and letters['S'] == 2 and lines[i][j] != lines[i+2][j+2]:
                     count += 1
     print(count)
 
