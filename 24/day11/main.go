@@ -68,17 +68,19 @@ func round(s uint64, remaining int) []uint64 {
 }
 
 func part2(initial string) {
-	stonesStr := strings.Fields(initial)
 	stones0 := make(map[uint64]uint64)
 	stones25 := make(map[uint64]uint64)
 	stones50 := make(map[uint64]uint64)
+	s25 := make(map[uint64]uint64)
+	var r []uint64
+
+	stonesStr := strings.Fields(initial)
 	for _, s := range stonesStr {
 		us, _ := strconv.ParseUint(s, 10, 64)
 		stones0[us] += 1
 	}
-	s25 := make(map[uint64]uint64)
-	var r []uint64
 
+	// First round
 	for stone, count := range stones0 {
 		r = round(stone, 25)
 		s25[stone] = uint64(len(r))
@@ -87,6 +89,7 @@ func part2(initial string) {
 		}
 	}
 
+	// Second round
 	for stone, count := range stones25 {
 		r = round(stone, 25)
 		s25[stone] = uint64(len(r))
@@ -95,13 +98,13 @@ func part2(initial string) {
 		}
 	}
 
+	// Last round, just need number of stones now, not actual
 	var sum uint64
 	for stone, count := range stones50 {
-		if res25, ok := s25[stone]; ok {
-			sum += count * res25
-		} else {
-			sum += uint64(len(round(stone, 25))) * count
+		if _, ok := s25[stone]; !ok {
+			s25[stone] = uint64(len(round(stone, 25)))
 		}
+		sum += count * s25[stone]
 	}
 	fmt.Println(stones0)
 	println(sum)
